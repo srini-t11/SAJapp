@@ -1,0 +1,11 @@
+.DS_Store
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.idea/
+.packages
+analysis_options.yaml
+build/
+pubspec.lock
+saj_math_app.iml
+local.properties
