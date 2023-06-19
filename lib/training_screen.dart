@@ -262,6 +262,11 @@ class TrainingScreenRouteState extends State<TrainingScreenRoute> {
           height: screen_h/4,
           child: ElevatedButton(
             onPressed: () {
+              print("blue");
+              if (lines[0].path.length == 0) {
+                userWarningDialog(context, "Error: Nothing Drawn", "Draw the chosen character and then click train", "Ok");
+                return;
+              }
 
               if (outCharacter != "" && chosenCharacter == outCharacter) {
                 int numFiles = getNumFilesinDir(currDir);
@@ -277,13 +282,16 @@ class TrainingScreenRouteState extends State<TrainingScreenRoute> {
                   outCharacter = chosenCharacter;
 
                   setState(() {
-                    numSamples = numFiles + 1;
+                    numSamples = getNumFilesinDir(currDir) + 1;//numFiles + 1;
                     textBelowCharacter = currDir + "\nSample Number: " + numSamples.toString();
                   });
 
                 }
+                print("yellow");
+                print(numSamples);
                 setState(() {
-                  numSamples = getNumFilesinDir(currDir) + 1;
+                  numSamples = getNumFilesinDir(currDir) + 1;//getNumFilesinDir(currDir) + 1;
+                  print(numSamples);
                   textBelowCharacter = currDir + "\nSample Number: " + numSamples.toString();
                 });
               } else {
@@ -504,7 +512,7 @@ class TrainingScreenRouteState extends State<TrainingScreenRoute> {
             //height: MediaQuery.of(context).size.height,
             // CustomPaint widget will go here
             child: CustomPaint(
-              painter: MySketcher(transformedLines(lines)),
+              painter: MySketcher(transformedLines(lines), [], [0.0,0.0,0.0,0.0]),
             ),
           ),
         ),
@@ -656,7 +664,7 @@ class TrainingScreenRouteState extends State<TrainingScreenRoute> {
 
   enterButtonPressed() {
 
-    int numSamples = getDirFiles(currDir).length + 1;
+    numSamples = getDirFiles(currDir).length + 1;
 
     setState(() {
       outCharacter = chosenCharacter;
@@ -744,8 +752,22 @@ Color getContrastingTextColor(Color backgroundColor) {
 }
 
 int getNumFilesinDir(String filePath) {
+  /*
   List<String> fList = getDirFiles(filePath);
   return fList.length;
+   */
+
+  Directory directory = Directory(filePath);
+  List<FileSystemEntity> files = directory.listSync();
+  int count = 0;
+
+  for (FileSystemEntity file in files) {
+    if (file is File) {
+      count++;
+    }
+  }
+
+  return count;
 }
 
 int getNumFoldersinDir(String folderPath) {
@@ -759,11 +781,18 @@ int getRandomNumber(int n) {
   return random.nextInt(n);
 }
 
-Future<void> saveDoc(String absPath, String file_name, DocObject doc_obj) async {
+Future<void> saveDoc(String absPath, String fileName, DocObject doc_obj) async {
 
   String f_content = doc_obj.convertToText();
 
-  writeData(absPath, file_name, f_content);
+  writeData(absPath, fileName, f_content);
+
+  print(absPath);
+  print("fName:");
+  print(fileName);
+  int numfs = getNumFilesinDir(absPath);
+  print("numFiles:");
+  print(numfs);
 
 }
 

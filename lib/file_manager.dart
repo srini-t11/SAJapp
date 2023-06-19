@@ -559,7 +559,7 @@ void goToFolderFromLeftPanel(BuildContext context, String foldName, User u, Stri
 }
 
 void mainPanelFPressed(BuildContext context, String fName, User u, String currRelPathLeft, String currRelPathMain, bool isFolder) async {
-  List drawnLines = [];
+  List<DrawnLine> drawnLines = [];
   if (isFolder) {
     goToFolderFromMainPanel(context, fName, u, currRelPathLeft, currRelPathMain);
   } else {
@@ -573,7 +573,7 @@ void mainPanelFPressed(BuildContext context, String fName, User u, String currRe
   return;
 }
 
-void goToFileFromMainPanel(BuildContext context, User user, String fileName, String relPath, List drawnLines) {
+void goToFileFromMainPanel(BuildContext context, User user, String fileName, String relPath, List<DrawnLine> drawnLines) {
 
   //String absPath = "${user.app_root_dir}/$relPath/$fileName";
   //String fileAsText = ;

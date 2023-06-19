@@ -63,8 +63,8 @@ class DocObject extends StatelessWidget {
   }
 
   //convert String to a list of DocObject lines
-  List convertTextToDocLines(String? text) {
-    List lines_out = [];
+  List<DrawnLine> convertTextToDocLines(String? text) {
+    List<DrawnLine> lines_out = [];
 
     if (text == null) {
       return [DrawnLine([], Colors.black, 5)];
